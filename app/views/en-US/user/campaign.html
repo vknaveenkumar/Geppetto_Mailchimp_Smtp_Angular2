@@ -1,0 +1,283 @@
+<div class="project">
+	<h1 class="title">Manage Campaign</h1>
+	<tabset class="tabs"> <tab title="General Information">
+		<div class="tab-content">
+	<form name="campaignForm" #f="ngForm" novalidate>
+		<div class="general">
+			<div class="properties">
+				 
+				 <div class="item">
+					<label for="title">Title</label> <input style="width: 100%;"
+					type="text" class="form-control" id="title" ngControl="title"
+					placeholder="Enter the title"
+					required  [(ngModel)]="campaign.campaignTitle" #title="ngForm">
+					<span *ngIf="!title.valid && !title.pristine" style="color:red;"><span>Title is Required</span></span>
+				  </div>
+			
+
+                <div class="item">
+					<label for="label">Label</label> <input style="width: 100%;"
+					type="text" class="form-control" id="label" ngControl="label"
+					placeholder="Enter the label" 
+					required [(ngModel)]="campaign.campaignLabel" #label="ngForm">
+					<span *ngIf="!label.valid && !label.pristine" style="color:red;"><span> Label is Required</span></span>
+				</div>
+
+				<div class="item">
+					<label for="description">Description</label> <input style="width: 100%;"
+					type="text" class="form-control" id="description" ngControl="description"
+					placeholder="Enter the description" 
+					required  [(ngModel)]="campaign.campaignDescription" #description="ngForm">
+					<span *ngIf="!description.valid && !description.pristine" style="color:red;"><span>Description is Required</span></span>
+				</div>
+
+
+				<div class="item">
+					<label for="campaigntype">Type</label> <select style="width: 100%;"
+						id="campaigntype"    [(ngModel)]="campaign.campaignType"
+						class="form-control" ngControl="campaigntype" required  #campaigntype="ngForm">
+						<option value="" selected>Please Select</option>
+						<option value="regular">Regular</option>
+					</select>
+					<span *ngIf="!campaigntype.valid && !campaigntype.pristine" style="color:red;"><span>Campaign Type is Required</span></span>
+			   </div>
+
+
+			   <div class="item">
+					<label for="emailsubject">Email Subject</label> <input style="width: 100%;"
+					type="text" class="form-control" id="emailsubject" ngControl="emailsubject"
+					placeholder="Enter the emailsubject" [(ngModel)]="campaign.emailSubject"
+					required  #emailsubject="ngForm">
+					<span *ngIf="!emailsubject.valid && !emailsubject.pristine" style="color:red;"><span>Email Subject is Required</span></span>
+				</div>
+
+				<div class="item">
+					<label for="fromname">From Name</label> <input style="width: 100%;"
+					type="text" class="form-control" id="fromname" ngControl="fromname"
+					placeholder="Enter the fromname" [(ngModel)]="campaign.fromName"
+					required  #fromname="ngForm">
+					<span *ngIf="!fromname.valid && !fromname.pristine" style="color:red;"><span>From Name is Required</span></span>
+				</div>
+
+
+
+				<div class="item">
+					<label for="fromemail">From Email</label> <input style="width: 100%;"
+					type="text" class="form-control" id="fromemail" ngControl="fromemail" [(ngModel)]="campaign.fromEmail"
+					placeholder="Enter the fromemail" 
+					required  #fromemail="ngForm">
+					<span *ngIf="!fromemail.valid && !fromemail.pristine" style="color:red;"><span>From Email is Required</span></span>
+				</div>
+
+				<div class="item">
+					<label for="toname">To Name Type</label> <select style="width: 100%;"
+						id="toname" [(ngModel)]="campaign.toNameType"
+						class="form-control" ngControl="toname" required  #toname="ngForm">
+						<option value="" selected="selected">Select the To Name
+							Type</option>
+						<option value="*|FNAME|*">First name</option>
+						<option value="*|LNAME|*">Last name</option>
+						<option value="*|FNAME|* *|LNAME|*">First name | Last
+							name</option>
+						<option value="*|LNAME|* *|FNAME|*">Last name | First
+							name</option>
+					</select>
+					<span *ngIf="!toname.valid && !toname.pristine" style="color:red;"><span>ToName is Required</span></span>
+			   </div>
+
+               <div class="item">
+					<label for="emailtype">Email Type</label> <select style="width: 100%;"
+						id="emailtype" [(ngModel)]="campaign.emailType"  
+						class="form-control" ngControl="emailtype" required  #emailtype="ngForm">
+						<option value="" selected="selected">Select the Email
+							Type</option>
+						<option value="html">HTML</option>
+						<option value="text">Text</option>
+					</select>
+					<span *ngIf="!emailtype.valid && !emailtype.pristine" style="color:red;"><span>EmailType is Required</span></span>
+			   </div>   
+
+			  <div class="item">
+					<label for="newtemplate">New Email Template</label> <select style="width: 100%;"
+						id="newtemplate"   [(ngModel)]="template.baseTemplateId" 											(ngModelChange)="pickNewTemplate(template.baseTemplateId)" [disabled]="campaign.emailTemplate != ''"
+						class="form-control" ngControl="newtemplate" required  #newtemplate="ngForm">
+						<option value="" selected="selected">Select the Email
+							Template</option>
+						<option *ngFor="let baseTemplate of baseTemplatesList"
+							value="{{baseTemplate.templateSno}}">{{baseTemplate.templateName}}</option>
+					</select>
+					<span *ngIf="!newtemplate.valid && !newtemplate.pristine" style="color:red;"><span>newtemplate is Required</span></span>
+			   </div>   
+
+
+			    <div class="item">
+					<label for="existingtemplate">Existing Template</label> <select style="width: 100%;"
+						id="existingtemplate" [(ngModel)]="template.templateSno"
+						(ngModelChange)="pickExistingTemplate(template.templateSno)" 										[disabled]="campaign.emailTemplate != ''"
+						class="form-control" ngControl="existingtemplate" required  #existingtemplate="ngForm">
+						<option value="" selected="selected">Select the Email
+							Template</option>
+						<option *ngFor="let existingTemplate of templatesList"
+							value="{{existingTemplate.templateSno}}">{{existingTemplate.templateName}}</option>
+					</select>
+					<span *ngIf="!existingtemplate.valid && !existingtemplate.pristine" style="color:red;"><span>Existing is Required</span></span>
+			   </div>   
+
+
+
+
+				<div class="item">
+					<label for="templatename">Template Name</label> <input style="width: 100%;"
+					type="text" class="form-control" id="templatename" ngControl="templatename"
+					placeholder="Enter the TemplateName" [(ngModel)]="template.templateName"
+					required  #templatename="ngForm">
+					<span *ngIf="!templatename.valid && !templatename.pristine" style="color:red;"><span>Template Name is Required</span></span>
+				</div>
+
+				<div class="item">
+					<label for="apikey">Api Key</label> <input style="width: 100%;"
+					type="text" class="form-control" id="apikey" ngControl="apikey"
+					placeholder="Enter the Api Key" [(ngModel)]="campaign.apiKey"
+					required  #apikey="ngForm" [disabled]=" campaign.campaignId != '' ">
+					<span *ngIf="!apikey.valid && !apikey.pristine" style="color:red;"><span>Api Key is Required</span></span>
+				</div>
+
+
+				<div class="item">
+					<label for="listId">List Id </label> <input style="width: 100%;"
+					type="text" class="form-control" id="apikey" ngControl="listId"
+					placeholder="Enter the List Id" [(ngModel)]="campaign.listId"
+					required  #listId="ngForm" [disabled]=" campaign.campaignId != '' ">
+					<span *ngIf="!listId.valid && !listId.pristine" style="color:red;"><span>List Id is Required</span></span>
+				</div>
+
+
+
+		</div>
+	<hr> 
+    
+    <accordion>
+      <accordion-group heading="Edit the Template">
+      <div class="general">
+				<div class="properties">
+					<div class="item">
+						<label for="bodyheader">Body Header</label> <input style="width: 100%;"
+						type="text" class="form-control" id="bodyheader" ngControl="bodyheader"
+						placeholder="Enter the bodyheader" [(ngModel)]="template.bodyHeader"
+						required  #bodyheader="ngForm">
+						<span *ngIf="!bodyheader.valid && !bodyheader.pristine" style="color:red;"><span>Body Header is Required</span></span>
+					</div>
+					<div class="item">
+						<label for="bodyheadersub">Body Header Subject</label> <input style="width: 100%;"
+						type="text" class="form-control" id="bodyheadersub" ngControl="bodyheadersub"
+						placeholder="Enter the BodyHeaderSub" [(ngModel)]="template.bodySubject"
+						required  #bodyheadersub="ngForm">
+						<span *ngIf="!bodyheadersub.valid && !bodyheadersub.pristine" style="color:red;"><span>Body Header Subject is Required</span></span>
+					</div>
+					<div class="item">
+						<label for="bodyfooter">Body Footer</label> <input style="width: 100%;"
+						type="text" class="form-control" id="bodyfooter" ngControl="bodyfooter"
+						placeholder="Enter the Body Footer" [(ngModel)]="template.bodyFooter"
+						required  #bodyfooter="ngForm">
+						<span *ngIf="!bodyfooter.valid && !bodyfooter.pristine" style="color:red;"><span>Body Footer is Required</span></span>
+					</div>
+				</div>
+
+               <label for="bodycontent" >Body Content</label>
+             <ckeditor ngControl="bodycontent" required #bodycontent="ngForm" [(ngModel)]="template.bodyContent"></ckeditor>
+                <span *ngIf="!bodycontent.valid && !bodycontent.pristine" style="color:red;"><span>Body Content is Required</span></span>
+			</div>
+      </accordion-group>
+      
+      <hr>
+
+     <accordion-group heading="List of Subscribers" [hidden]="campaign.campaignSno != ''"
+				 class="architecture">
+		 <div class="properties">
+		 <h3 class="title lead">List of Subscribers</h3>
+            
+         <p-dataTable  [value]="subscribersList" sortMode="multiple" [editable]="true" >
+            <p-column field="subscriberSno" header="subscriberSno"  [sortable]="true" [filter]="true" ></p-column>
+    		<p-column field="firstName" header="First Name" [editable]="true" [sortable]="true" [filter]="true" ></p-column>
+    		<p-column field="lastName" header="Last Name" [editable]="true" [sortable]="true" [filter]="true"></p-column>
+    		<p-column field="emailAddress" header="Email Address" [editable]="true" [sortable]="true" [filter]="true"></p-column>
+
+         <p-column>
+       			<template let-sub="rowData">
+         		<button class="btn btn-success btn-md" type="button" pButton (click)="updateSub(sub)"><i class="fa fa-check"></i></button>
+         		<button class="btn btn-danger btn-md" type="button" pButton (click)="deleteSub(sub)"><i class="fa fa-trash"></i></button>
+      			</template>
+         </p-column>
+			</p-dataTable>
+			</div>
+		<br>
+      <div>
+       <button class="btn btn-success btn-md" (click)="addNewRow()"><i class="fa fa-plus" aria-hidden="true"></i></button>
+      </div>
+
+	</accordion-group></accordion>
+	</div>
+	
+   <hr>
+
+   <div class="action">
+  <!--  	<button class="btn btn-info"  *ngIf="CampaignBtn && campaign.campaignSno == ''" id="subscribeBtn"  						(click)="subscribeTheList()" [disabled]="pickedSubscribers==''||!apikey.valid || !listId.valid ">Subscribe</button> -->
+    
+    <button  class="btn btn-info" *ngIf="CampaignBtn" [disabled]="!title.valid || !label.valid || !description.valid  || !campaigntype.valid || !emailsubject.valid || !fromname.valid || !fromemail.valid || !toname.valid || !emailtype.valid || !templatename.valid || !apikey.valid || !listId.valid || !bodyheader.valid || !bodyheadersub || !bodyfooter.valid "  (click)="createCampaign()" >Create Campaign</button>
+
+    <button class="btn btn-info" [disabled]=" campaign.campaignSno == '' " (click)="sendTestMail()">Send Test Email</button>
+
+    <button class="btn complete" [disabled]=" campaign.campaignSno == '' " (click)="sendCampaign()">Send Campaign</button>
+			
+	<button class="btn danger" (click)="goBack()">Go Back</button>
+
+
+
+
+   </div>
+   </form>
+   </div>  <!-- for tab content -->
+ 
+
+ </tab> </tabset>
+</div>
+
+
+<!-- This is For Modal -->
+
+<modal #modal>
+    <modal-header>
+        <h4 class="modal-title">Alert!</h4>
+    </modal-header>
+    <modal-body>
+       {{message}}
+    </modal-body>
+    <modal-footer>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Ok</button>
+    </modal-footer>
+</modal>
+
+<!-- This is for sending -->
+ <modal  #sendmail>
+        <modal-header [show-close]="true">
+            <h4 class="modal-title">Alert</h4>
+        </modal-header>
+        
+        <modal-body>
+              
+        <form class="create" name="sendtestemailForm" #f="ngForm">
+		    <div class="form-group">
+			    <label for="testemail">Email</label> <input type="text"
+				class="form-control" id="testemail" name="testemail"
+				placeholder="Enter the email" [(ngModel)]="modalData.email"
+				ngControl="sendmail" required #sendmail="ngForm">
+                <span *ngIf="!sendmail.valid && !sendmail.pristine" style="color:red;"><span>Email is Required</span></span>
+			</div>
+    	</form>    
+        </modal-body>
+        
+        <modal-footer >
+        <button type="button" class="btn btn-primary" (click)="sendTest()">Delete</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
+        </modal-footer>
+ </modal>
